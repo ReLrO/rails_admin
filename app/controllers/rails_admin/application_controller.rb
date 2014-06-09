@@ -8,6 +8,14 @@ module RailsAdmin
   end
 
   class ApplicationController < ::ApplicationController
+    include ActionView::Layouts
+    include ActionController::ImplicitRender
+    # include ActionController::Cookies
+    include ActionController::Flash
+    include ActionController::RequestForgeryProtection
+    include ActionController::HttpAuthentication::Basic::ControllerMethods
+    include ActionView::Helpers::TranslationHelper
+    
     newrelic_ignore if defined?(NewRelic) && respond_to?(:newrelic_ignore)
 
     before_filter :_authenticate!
