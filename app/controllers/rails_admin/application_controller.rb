@@ -1,4 +1,5 @@
 require 'rails_admin/abstract_model'
+require 'uglifier'
 
 module RailsAdmin
   class ModelNotFound < ::StandardError
