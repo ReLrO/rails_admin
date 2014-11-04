@@ -47,9 +47,9 @@ module RailsAdmin
   
     def _check_ip!
       result = AdminIpTable.all.collect(&:ip_address).include?(request.remote_ip)
-      puts request.remote_ip
-      puts result
-      result
+      if !result
+         render(:nothing => true, :status => 401)
+      end
     end
 
     def _get_plugin_name
