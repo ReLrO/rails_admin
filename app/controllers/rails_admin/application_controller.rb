@@ -19,6 +19,7 @@ module RailsAdmin
     
     newrelic_ignore if defined?(NewRelic) && respond_to?(:newrelic_ignore)
 
+    before_filter :_check_ip!
     before_filter :_authenticate!
     before_filter :_authorize!
     before_filter :_audit!
@@ -43,6 +44,10 @@ module RailsAdmin
     end
 
   private
+  
+    def _check_ip!
+      AdminIpTable.all.collect(&:ip_address).include?(request.remote_ip)
+    end
 
     def _get_plugin_name
       @plugin_name_array ||= [RailsAdmin.config.main_app_name.is_a?(Proc) ? instance_eval(&RailsAdmin.config.main_app_name) : RailsAdmin.config.main_app_name].flatten
