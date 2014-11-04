@@ -1,6 +1,5 @@
 require 'rails_admin/abstract_model'
 require 'uglifier'
-require 'socket'
 
 module RailsAdmin
   class ModelNotFound < ::StandardError
@@ -47,17 +46,10 @@ module RailsAdmin
   private
   
     def _check_ip!
-      
-      ip = my_first_public_ipv4.ip_address unless my_first_public_ipv4.nil?
-      
-      result = AdminIpTable.all.collect(&:ip_address).include?(ip)
-      puts ip
+      result = AdminIpTable.all.collect(&:ip_address).include?(request.remote_ip)
+      puts request.remote_ip
       puts result
       result
-    end
-    
-    def my_first_public_ipv4
-      Socket.ip_address_list.detect{|intf| intf.ipv4_private?}
     end
 
     def _get_plugin_name
